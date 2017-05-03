@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Software Testing mit JUnit 5</title>
+
+    <meta name="description" content="Softwaretesting mit JUnit 5">
+    <meta name="author" content="Reinhard Prechtl">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+    
+    <link rel="stylesheet" href="css/deck.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="lib/css/darcula.css">
+    
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/github.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+<!-- ########################################################################################### -->
+<!-- START                                                                                       -->
+<!-- ########################################################################################### -->
+
+<section data-markdown data-background="images/codecentric-title-background-16x9.png"><script type="text/template">
+## Software Testing mit JUnit 5
+
+Reinhard Prechtl,  
+codecentric
+</script></section>
+
+<!-- ########################################################################################### -->
+
+<section class="centered" data-markdown><script type="text/template">
+  
+![](images/profil.jpg)
+ 
+Reinhard Prechtl  
+codecentric AG, Nürnberg
+
+reinhard.prechtl@codecentric.de  
+@reinhard_codes  
+
+</script>
+</section>
+
+<!-- ########################################################################################### -->
+
+<section data-markdown><script type="text/template">
+## Disclaimer
+
+- Ich bin nicht selbst im JUnit Projekt aktiv
+- JUnit 5 ist _Work in Progress_
+- Mehr Infos u.a.:  
+  http://junit.org/junit5/docs/5.0.0-M4/user-guide/
+  http://blog.codefx.org/tag/junit-5/
+- Twitter: @junitteam
+- Videos von Marc Philipp, Sam Brannen und Nicolai Parlog auf Youtube
+
+</script></section>
+
+<!-- ########################################################################################### -->
+
+<section>
+  <section class="centered" data-markdown><script type="text/template">
+    ## Warum JUnit 5
+  </script></section>
+  
+  <section data-markdown><script type="text/template">
+    ### JUnit 4
+    ---
+    - Geschichte
+    - Modularität
+    - Erweiterungsmöglichkeiten
+  </script></section>
+  
+  <section data-markdown><script type="text/template">
+    ### JUnit 4 - Geschichte
+    ---
+    - fast 20 Jahre alt
+    - Hervorragende Toolunterstützung
+    - aktuell Version 4.12
+    - Keine Unterstützung von modernen Sprachfeatures (Java 8)
+    
+  </script></section>
+  
+  <section data-markdown><script type="text/template">
+  ### JUnit 4 - Modularität
+  ---
+  - One JAR to rule them all
+     - IDEs, Buildtools, Entwickler, Erweitungen benutzen das selbe Artefakt
+     - Keine Tool-spezifische API, vieles ist mit Reflection umgesetzt
+  - Großer Erfolg von JUnit 4 erschwert Weiterentwicklung
+    
+  </script></section>
+
+  <section data-markdown><script type="text/template">
+  ### JUnit 4 - Erweiterungsmöglichkeiten
+  ---
+  - Runners (seit 4.0)
+     - Sehr mächtig, sehr schwergewichtig
+     - keine Kombination möglich
+     - bspw: `Parametrized`, `Categories`
+        
+  </script></section>
+  <section data-markdown><script type="text/template">
+  ### JUnit 4 - Erweiterungsmöglichkeiten
+  ---
+  - Rules (seit 4.7)
+     - Flexibler als Runner
+     - Nur before/after
+     - ClassRules/MethodRules
+     - bspw: `ExpectedException`, `TemporaryFolder`
+
+  </script></section>
+  
+</section>
+
+<!-- ########################################################################################### -->
+
+<section>
+  
+  <section class="centered" data-markdown><script type="text/template">
+    ## JUnit 5
+  </script></section>
+  
+  <section data-markdown><script type="text/template">
+    ### JUnit 5
+    ---
+    - Gestarted durch Crowdfunding
+    - Work in progress
+    - Besonders im Fokus:
+      - Modularisierung
+      - Erweiterbarkeit
+      - Verwendung moderner Sprachfeatures  
+<small>(JUnit Lambda)</small>
+      - Kompatibilität
+  
+  </script></section>
+
+  <section data-markdown><script type="text/template">
+    ### JUnit 5
+    ---
+    - Architektur
+    - Erweiterbarkeit
+    - Weitere Features
+
+  </script></section>
+</section>
+  
+<!-- ########################################################################################### -->
+<section>
+
+  <section class="centered" data-markdown><script type="text/template">
+    ## JUnit 5 - Architektur
+  </script></section>
+  
+  <section data-markdown><script type="text/template">
+    ## JUnit 5 - Architektur
+    ---
+    <div id="left">
+      ![](images/junit5_architecture.png)
+    </div>
+    
+    <div id="right">
+    - API um Tests zu schreiben  
+    - API um Tests zu finden  
+    - Engines um Tests auszuführen  
+    <br>
+    &rarr; **Seperation of Concerns**
+    </div>
+    
+  </script></section>
+  
+  <section data-markdown><script type="text/template">
+    ### JUnit 5 - Architektur
+    ---
+    
+    - JUnit 4 Engine: Vintage  
+    <small>package: org.junit.vintage</small>
+    - Neue JUnit 5 Engine: Jupiter  
+    <small>package: org.junit.jupiter</small>
+    - Andere Engines:
+      - Spek (Kotlin)
+      - Specsy (Scala, Groovy, Java)
+    - JUnit5 Tests durch JUnit4 ausführen:  
+    <small>@Runner(JUnitPlatform.class)</small>
+        
+  </script></section>
+  
+  <section data-markdown><script type="text/template">
+    ### JUnit 5 - Architektur
+    ---
+    - Modularer Aufbau
+    - Vorwärts- und rückwärtskompatibel
+    - Ermöglicht sanfte Migration
+    - Öffnet die gesamte Platform
+    
+  </script></section>
+
+</section>
+
+<!-- ########################################################################################### -->
+<section>
+
+  <section class="centered" data-markdown><script type="text/template">
+    ## JUnit Jupiter - Erweiterbarkeit
+  </script></section>
+  
+  <section data-markdown><script type="text/template">
+    ### JUnit Jupiter - Erweiterbarkeit
+    ---
+    "_Extension Points statt Features_"
+    
+    [1/2]
+    - BeforeAll callback
+    - BeforeEach callback
+    - BeforeTest callback
+    - AfterTest callback
+    - AfterEach callback
+    - AfterAll callback
+      
+  </script></section>
+  
+  <section data-markdown><script type="text/template">
+    ### JUnit 5 - Erweiterbarkeit
+    ---
+    [2/2]
+    - ContainerExecutionCondition
+    - TestExecutionCondition
+    - TestInstancePostProcessor
+    - ParameterResolver
+    - ExeceptionHandler
+
+  </script></section>
+  
+  <section>
+    <h3>Beispiel: konditionale Testausführung</h3>
+    <pre><code class="java" data-trim>
+      public class ExternalSystemAvailabilityExtension 
+        implements ContainerExecutionCondition {
+        
+        @Override
+        public ConditionEvaluationResult 
+          evaluate(TestExtensionContext ctx) {
+          if (externalSystemAvailable())
+            return enabled(“External system is available“); 
+          else
+            return disabled(“External system isn‘t available!“) 
+        }
+        // ...
+      }
+    </code></pre>
+
+  </section>
+  
+  <section>
+    <h3>Beispiel: Anwendung einer Erweiterung</h3>
+    
+    Etwas technisch:
+    <pre><code class="java" data-trim>
+      @ExtendWith(ExternalSystemAvailabilityExtension.class)
+      class HelloWorldTests {
+        // ...
+      }
+    </code></pre>
+    
+    ...oder mit Meta-Annotationen:
+    <pre><code class="java" data-trim>
+      @ExtendWith(ExternalSystemAvailabilityExtension.class)
+      public @interface ExternalSystemAvailable {}
+        
+      @ExternalSystemAvailable
+      class ExternalTests {
+        // ...
+      }
+        
+    </code></pre>
+
+  </section>
+  
+  <section data-markdown><script type="text/template">
+    ### JUnit 5 - Erweiterbarkeit
+    ---
+    - Sehr flexibel
+    - Gut kombinierbar
+    - Anpassbar durch Meta-Annotations
+
+  </script></section>
+  
+</section>
+
+<!-- ########################################################################################### -->
+<section>
+
+  <section class="centered" data-markdown><script type="text/template">
+    ### Weitere Features von Jupiter
+  </script></section>
+  
+  <section data-markdown><script type="text/template">
+    ### JUnit 5 - Jupiter
+    ---
+    Viele neue Features:
+    - Visibility
+    - Neue Assertions
+    - Neue Assumptions
+    - Verschachtelte Tests
+    - Benannte Tests
+    - Parametrisierte Tests
+    - Repeated Tests
+    - Konditionale Tests
+    
+  </script></section>
+  
+  <section data-markdown><script type="text/template">
+  ### JUnit 5 - Jupiter
+  <hr>
+  Visibility
+  <pre><code class="java" data-trim data-noescape>
+class HelloWorldTests {
+
+   @Test
+   void test() { /* ... */ }
+
+}
+  </code></pre>
+  </script></section>
+  
+  <section>
+    <h3>JUnit 5 - Jupiter</h3>
+    <hr>
+    Neue Assertions
+    <pre><code class="java" data-trim data-noescape>
+      <i>assertTrue</i>(service.isEnabled(), "Expected to be true");
+      
+      <i>assertEquals</i>(expected, actual, () -> "Expected value didn't match");
+      
+      <i>assertAll</i>("Addresstests",
+        () -> <i>assertEquals</i>("Jena", addresse.getOrt()),
+        () -> <i>assertEquals</i>("07743", addresse.getOrt())
+      );
+      
+      Exception ex = <i>assertThrows</i>(Exception.class, service::invoke);
+      
+      <i>assertTimeout</i>(Duration.parse("PT0.500S"), service::invoke);
+      <i>assertTimeoutPreemptivly</i>(
+        Duration.parse("PT0.500S"), service::invoke);
+    </code></pre>
+
+  </section>
+  
+  <section>
+    <h3>JUnit 5 - Jupiter</h3>
+    <hr>
+    Neue Assumptions
+    
+    <pre><code class="java" data-trim data-noescape>
+      <i>assumeTrue</i>(service.isEnabled(), "Service should be enabled!");
+      
+      <i>assumeFalse</i>(service.isEnabled(), () -> "That didn‘t work!");
+      
+      <i>assumingThat</i>(service.isEnabled(), () -> { /* do something */ };
+    </code></pre>
+
+  </section>
+  
+  <section>
+    <h3>JUnit 5 - Jupiter</h3>
+    <hr>
+    Verschachtelte Tests
+    <pre><code class="java" data-trim data-noescape>
+class TestWrapper {
+  @BeforeEach
+  void setup() { /* .... */ }
+
+  @Nested
+  class WrappedTest1 {
+    @Test
+    void test() { /* ... */ }
+  }
+
+  @Nested
+  class WrappedTest2 {
+    @Test
+    void test() { /* ... */ }
+  }
+}</code></pre>
+  </section>
+
+  <section>
+    <h3>JUnit 5 - Jupiter</h3>
+    <hr>
+    Benannte Tests
+    <pre><code class="java" data-trim data-noescape>
+      @DisplayName("Eine Adresse sollte")
+      class AddressTests {
+        
+        @Test
+        @DisplayName("einen gültigen Ort besitzen")
+        void shouldHaveValidCity() {
+          <i>assertNotNull</i>(adresse.getOrt());
+        }
+        
+        @Test
+        @DisplayName("eine gültige Postleitzahl besitzen")
+        void shouldHaveValidCity() {
+          <i>assertNotNull</i>(adresse.getOrt());
+        }
+      }
+    </code></pre>
+  </section>
+
+  <section data-markdown><script type="text/template">
+    ### JUnit 5 - Jupiter
+    ---
+    Parametrisierte Tests
+    
+    - Dynamische Tests
+    - Ganz neu: Parametrisierte Tests
+    
+  </script></section>
+  
+  <section>
+    <h3>JUnit 5 - Jupiter</h3>
+    <hr>
+    Wie war das bei JUnit4?
+    <pre><code class="java" style="max-height:450px" data-trim data-noescape>
+      @RunWith(Parametrized.class)
+      public class FibonacciTest {
+        @Parameters public static Collection&lt;Object[]&gt; data() {
+          return Arrays.asList(new Object[][] {
+            {0,0},{1,1},{2,1},{3,2} })};
+            
+        private int input, expected;
+        
+        public FibonacciTest(int input, int expected) {
+          this.input = input; this.expected = expected;
+        }
+        
+        @Test
+        public void test() {
+          <i>assertEquals</i>(expected, Fibonacci.compute(input));
+        }
+      }
+    </code></pre>
+  </section>
+
+  <section>
+    <h3>JUnit 5 - Jupiter</h3>
+    <hr>
+    Dynamische Tests:
+    <pre><code class="java" data-trim data-noescape>
+      class DynamicTests {
+        
+        @TestFactory
+        List&lt;DynamicTest&gt; createSomeTests() {
+          
+          return Arrays.asList(
+            DynamicTest.dynamicTest("First dynamically created test", 
+              () -> assertEquals(/* ... */)),
+              
+            DynamicTest.dynamicTest("Second dynamically created test", 
+              () -> assertEquals(/* ... */))
+          );
+        }
+      }
+    </code></pre>
+
+  </section>
+
+  <section data-markdown><script type="text/template">
+    ### JUnit 5 - Jupiter
+    ---
+    Parametrisierte Tests (seit Milestone 4):  
+    
+    - @ParametrizedTest  
+    - @ValueSource  
+    - @EnumSource  
+    - @MethodSource  
+    - @CsvSource / @CsvFileSource  
+    
+    Durch `ArgumentsProvider` sind eigene Implementierungen möglich
+  </script></section>
+  
+  <section>
+    <h3>JUnit 5 - Jupiter</h3>
+    <hr>
+    <pre><code class="java" data-trim data-noescape>
+      class ParametrizedTests {
+        
+        @ParameterizedTest
+        @ValueSource(ints = {1,2,3,4,5})
+        void valueSourceTest(int param){ /* ... */ }
+        
+        @ParametrizedTest
+        @CsvFileSource(resources = "/file.csv")
+        void csvSourceTest(String token1, String token2){ /* ... */ }
+        
+        @ParameterizedTest
+        @MethodSource(name = "paramMethod")
+        void methodSourceTest(String param){ /* ... */ }
+        
+        static Iterable&lt;String&gt; paramMethod() { /* ... */ }
+      }
+    </code></pre>
+
+  </section>
+  
+  
+  <section>
+    <h3>JUnit 5 - Jupiter</h3>
+    <hr>
+    
+    <ul><li>Repeatable Tests (seit Milestone 4)</li></ul>
+    
+    <pre><code class="java" data-trim data-noescape>
+      class RepeatableTests {
+        
+        @RepeatableTest(10)
+        void repeatableTest(RepetitionInfo repetitionInfo) {
+          /* ... */
+        }
+      }
+    </code></pre>
+    
+  </section>
+  
+  
+  <section>
+    <h3>JUnit 5 - Jupiter</h3>
+    <hr>
+    Tests können deaktiviert werden:
+    <pre><code class="java" data-trim data-noescape>
+      class DisabledTests {
+        
+        @Test
+        @Disabled
+        void breakingTest() {
+          fail("This never works!");
+        }
+        
+        @Test
+        @DisabledOnWeekends
+        void breaksOnWeekends() {
+          fail("Meeh, it's weekend again!");
+        }
+      }
+    </code></pre>
+  </section>
+  
+  <section>
+    <h3>JUnit 5 - Jupiter</h3>
+    <hr>
+    <pre><code class="java" data-trim style="font-size:90%">
+      import static org.junit.jupiter.api.extension.ConditionEvaluationResult.*;
+      class DisabledOnWeekendsCondition implements TestExecutionCondition {
+
+        @Override
+        public ConditionEvaluationResult evaluate(TestExtensionContext context) {
+          if (isWeekend()) 
+            return disabled("Should not be run on weekends!");
+          else 
+            return enabled("Should be run on weekdays!");
+        }
+
+        // ...
+      }
+    </code></pre>
+
+  </section>
+
+  <section data-markdown><script type="text/template">
+    ### JUnit 5 - Jupiter
+    ---
+    ExecutionConditions können deaktiviert werden:
+    
+    <small>-Djunit.conditions.deactivate=com.example.project.junitsession.support.DisabledOnWeekends</small>
+  </script></section>
+
+</section>
+
+<!-- ########################################################################################### -->
+<section>
+  
+  <section data-markdown class="centered"><script type="text/template">
+  ### Ausblick
+  </script></section>
+  
+  <section data-markdown><script type="text/template">
+    ### JUnit 5 - Ausblick
+    ---
+    Was fehlt noch bis zu GA?
+    
+    - Java 9 Kompatibilität (M5)
+    - Bugfixing
+  </script></section>
+  
+  <section data-markdown><script type="text/template">
+    ### JUnit 5 - Ausblick
+    ---
+    - Neue Architektur öffnet Plattform für Drittanbieter
+    - Neue Möglichkeiten mit Jupiter
+    - Tool-Support ist schon vorhanden
+    - JUnit5 ist Gesprächsthema und wird sich durchsetzen
+
+  </script></section>
+  
+  <section data-markdown><script type="text/template">
+    https://github.com/dnno/junit5-presentation
+  </script></section>
+  
+</section>
+<!-- ########################################################################################### -->
+<section data-markdown class="centered"><script type="text/template">
+## Vielen Dank!
+<small>@reinhard_codes</small>
+</script></section>
+
+<!-- ########################################################################################### -->
+<!-- END                                                                                         -->
+<!-- ########################################################################################### -->
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
