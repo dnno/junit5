@@ -129,7 +129,7 @@ reinhard.prechtl@codecentric.de
   - Runners (seit 4.0)
      - Sehr mächtig, sehr schwergewichtig
      - keine Kombination möglich
-     - bspw: `Parametrized`, `Categories`
+     - bspw: `Parameterized`, `Categories`
         
   </script></section>
   <section data-markdown><script type="text/template">
@@ -454,7 +454,7 @@ class TestWrapper {
     <hr>
     Wie war das bei JUnit4?
     <pre><code class="java" style="max-height:450px" data-trim data-noescape>
-      @RunWith(Parametrized.class)
+      @RunWith(Parameterized.class)
       public class FibonacciTest {
         @Parameters public static Collection&lt;Object[]&gt; data() {
           return Arrays.asList(new Object[][] {
@@ -502,7 +502,7 @@ class TestWrapper {
     ---
     Parametrisierte Tests (seit Milestone 4):  
     
-    - @ParametrizedTest  
+    - @ParameterizedTest  
     - @ValueSource  
     - @EnumSource  
     - @MethodSource  
@@ -521,7 +521,7 @@ class TestWrapper {
         @ValueSource(ints = {1,2,3,4,5})
         void valueSourceTest(int param){ /* ... */ }
         
-        @ParametrizedTest
+        @ParameterizedTest
         @CsvFileSource(resources = "/file.csv")
         void csvSourceTest(String token1, String token2){ /* ... */ }
         
