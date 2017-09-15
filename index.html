@@ -16,11 +16,11 @@
 
     <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/theme/black.css" id="theme">
-    
+
     <link rel="stylesheet" href="css/deck.css">
     <link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="lib/css/darcula.css">
-    
+
     <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
 
     <!-- Code syntax highlighting -->
@@ -54,21 +54,21 @@
 <section data-markdown data-background="images/codecentric-title-background-16x9.png"><script type="text/template">
 ## Software Testing mit JUnit 5
 
-Reinhard Prechtl,  
+Reinhard Prechtl,
 codecentric
 </script></section>
 
 <!-- ########################################################################################### -->
 
 <section class="centered" data-markdown><script type="text/template">
-  
+
 ![](images/profil.jpg)
- 
-Reinhard Prechtl  
+
+Reinhard Prechtl
 codecentric AG, Nürnberg
 
-reinhard.prechtl@codecentric.de  
-@reinhard_codes  
+reinhard.prechtl@codecentric.de
+@reinhard_codes
 
 </script>
 </section>
@@ -79,12 +79,12 @@ reinhard.prechtl@codecentric.de
 ## Disclaimer
 
 - Ich bin nicht selbst im JUnit Projekt aktiv
-- JUnit 5 ist _Work in Progress_
-- Mehr Infos u.a.:  
-  http://junit.org/junit5/docs/5.0.0-M4/user-guide/
+- Mehr Infos u.a.:
+  http://junit.org/junit5/docs/current/user-guide/
   http://blog.codefx.org/tag/junit-5/
+  https://www.petrikainulainen.net/junit-5-the-ultimate-resource/
 - Twitter: @junitteam
-- Videos von Marc Philipp, Sam Brannen und Nicolai Parlog auf Youtube
+- Videos von auf Youtube
 
 </script></section>
 
@@ -94,7 +94,7 @@ reinhard.prechtl@codecentric.de
   <section class="centered" data-markdown><script type="text/template">
     ## Warum JUnit 5
   </script></section>
-  
+
   <section data-markdown><script type="text/template">
     ### JUnit 4
     ---
@@ -102,7 +102,7 @@ reinhard.prechtl@codecentric.de
     - Modularität
     - Erweiterungsmöglichkeiten
   </script></section>
-  
+
   <section data-markdown><script type="text/template">
     ### JUnit 4 - Geschichte
     ---
@@ -110,9 +110,9 @@ reinhard.prechtl@codecentric.de
     - Hervorragende Toolunterstützung
     - aktuell Version 4.12
     - Keine Unterstützung von modernen Sprachfeatures (Java 8)
-    
+
   </script></section>
-  
+
   <section data-markdown><script type="text/template">
   ### JUnit 4 - Modularität
   ---
@@ -120,7 +120,7 @@ reinhard.prechtl@codecentric.de
      - IDEs, Buildtools, Entwickler, Erweitungen benutzen das selbe Artefakt
      - Keine Tool-spezifische API, vieles ist mit Reflection umgesetzt
   - Großer Erfolg von JUnit 4 erschwert Weiterentwicklung
-    
+
   </script></section>
 
   <section data-markdown><script type="text/template">
@@ -130,7 +130,7 @@ reinhard.prechtl@codecentric.de
      - Sehr mächtig, sehr schwergewichtig
      - keine Kombination möglich
      - bspw: `Parameterized`, `Categories`
-        
+
   </script></section>
   <section data-markdown><script type="text/template">
   ### JUnit 4 - Erweiterungsmöglichkeiten
@@ -142,29 +142,28 @@ reinhard.prechtl@codecentric.de
      - bspw: `ExpectedException`, `TemporaryFolder`
 
   </script></section>
-  
+
 </section>
 
 <!-- ########################################################################################### -->
 
 <section>
-  
+
   <section class="centered" data-markdown><script type="text/template">
     ## JUnit 5
   </script></section>
-  
+
   <section data-markdown><script type="text/template">
     ### JUnit 5
     ---
     - Gestartet durch Crowdfunding
-    - Work in progress
     - Besonders im Fokus:
       - Modularisierung
       - Erweiterbarkeit
-      - Verwendung moderner Sprachfeatures  
+      - Verwendung moderner Sprachfeatures
 <small>(JUnit Lambda)</small>
       - Kompatibilität
-  
+
   </script></section>
 
   <section data-markdown><script type="text/template">
@@ -176,47 +175,48 @@ reinhard.prechtl@codecentric.de
 
   </script></section>
 </section>
-  
+
 <!-- ########################################################################################### -->
 <section>
 
   <section class="centered" data-markdown><script type="text/template">
     ## JUnit 5 - Architektur
   </script></section>
-  
+
   <section data-markdown><script type="text/template">
     ## JUnit 5 - Architektur
     ---
     <div id="left">
       ![](images/junit5_architecture.png)
     </div>
-    
+
     <div id="right">
-    - API um Tests zu schreiben  
-    - API um Tests zu finden  
-    - Engines um Tests auszuführen  
+    - API um Tests zu schreiben
+    - API um Tests zu finden
+    - Engines um Tests auszuführen
     <br>
     &rarr; **Seperation of Concerns**
     </div>
-    
+
   </script></section>
-  
+
   <section data-markdown><script type="text/template">
     ### JUnit 5 - Architektur
     ---
-    
-    - JUnit 4 Engine: Vintage  
+
+    - JUnit 4 Engine: Vintage
     <small>package: org.junit.vintage</small>
-    - Neue JUnit 5 Engine: Jupiter  
+    - Neue JUnit 5 Engine: Jupiter
     <small>package: org.junit.jupiter</small>
     - Andere Engines:
       - Spek (Kotlin)
       - Specsy (Scala, Groovy, Java)
-    - JUnit5 Tests durch JUnit4 ausführen:  
+      - jqwik (Example based Testing, Property-based Testing)
+    - JUnit5 Tests durch JUnit4 ausführen:
     <small>@Runner(JUnitPlatform.class)</small>
-        
+
   </script></section>
-  
+
   <section data-markdown><script type="text/template">
     ### JUnit 5 - Architektur
     ---
@@ -224,7 +224,7 @@ reinhard.prechtl@codecentric.de
     - Vorwärts- und rückwärtskompatibel
     - Ermöglicht sanfte Migration
     - Öffnet die gesamte Platform
-    
+
   </script></section>
 
 </section>
@@ -235,57 +235,60 @@ reinhard.prechtl@codecentric.de
   <section class="centered" data-markdown><script type="text/template">
     ## JUnit Jupiter - Erweiterbarkeit
   </script></section>
-  
+
   <section data-markdown><script type="text/template">
     ### JUnit Jupiter - Erweiterbarkeit
     ---
     "_Extension Points statt Features_"
-    
-    [1/2]
+
     - BeforeAll callback
     - BeforeEach callback
     - BeforeTest callback
     - AfterTest callback
     - AfterEach callback
     - AfterAll callback
-      
+
+    [1/2]
+
   </script></section>
-  
+
   <section data-markdown><script type="text/template">
     ### JUnit 5 - Erweiterbarkeit
     ---
-    [2/2]
+
     - ContainerExecutionCondition
     - TestExecutionCondition
     - TestInstancePostProcessor
     - ParameterResolver
     - ExeceptionHandler
 
+    [2/2]
+
   </script></section>
-  
+
   <section>
     <h3>Beispiel: konditionale Testausführung</h3>
     <pre><code class="java" data-trim>
-      public class ExternalSystemAvailabilityExtension 
+      public class ExternalSystemAvailabilityExtension
         implements ContainerExecutionCondition {
-        
+
         @Override
-        public ConditionEvaluationResult 
+        public ConditionEvaluationResult
           evaluate(TestExtensionContext ctx) {
           if (externalSystemAvailable())
-            return enabled(“External system is available“); 
+            return enabled(“External system is available“);
           else
-            return disabled(“External system isn‘t available!“) 
+            return disabled(“External system isn‘t available!“)
         }
         // ...
       }
     </code></pre>
 
   </section>
-  
+
   <section>
     <h3>Beispiel: Anwendung einer Erweiterung</h3>
-    
+
     Etwas technisch:
     <pre><code class="java" data-trim>
       @ExtendWith(ExternalSystemAvailabilityExtension.class)
@@ -293,21 +296,21 @@ reinhard.prechtl@codecentric.de
         // ...
       }
     </code></pre>
-    
+
     ...oder mit Meta-Annotationen:
     <pre><code class="java" data-trim>
       @ExtendWith(ExternalSystemAvailabilityExtension.class)
       public @interface ExternalSystemAvailable {}
-        
+
       @ExternalSystemAvailable
       class ExternalTests {
         // ...
       }
-        
+
     </code></pre>
 
   </section>
-  
+
   <section data-markdown><script type="text/template">
     ### JUnit 5 - Erweiterbarkeit
     ---
@@ -316,7 +319,7 @@ reinhard.prechtl@codecentric.de
     - Anpassbar durch Meta-Annotations
 
   </script></section>
-  
+
 </section>
 
 <!-- ########################################################################################### -->
@@ -325,7 +328,7 @@ reinhard.prechtl@codecentric.de
   <section class="centered" data-markdown><script type="text/template">
     ### Weitere Features von Jupiter
   </script></section>
-  
+
   <section data-markdown><script type="text/template">
     ### JUnit 5 - Jupiter
     ---
@@ -338,9 +341,9 @@ reinhard.prechtl@codecentric.de
     - Parametrisierte Tests
     - Repeated Tests
     - Konditionale Tests
-    
+
   </script></section>
-  
+
   <section data-markdown><script type="text/template">
   ### JUnit 5 - Jupiter
   <hr>
@@ -354,45 +357,45 @@ class HelloWorldTests {
 }
   </code></pre>
   </script></section>
-  
+
   <section>
     <h3>JUnit 5 - Jupiter</h3>
     <hr>
     Neue Assertions
     <pre><code class="java" data-trim data-noescape>
       <i>assertTrue</i>(service.isEnabled(), "Expected to be true");
-      
+
       <i>assertEquals</i>(expected, actual, () -> "Expected value didn't match");
-      
+
       <i>assertAll</i>("Addresstests",
-        () -> <i>assertEquals</i>("Jena", addresse.getOrt()),
-        () -> <i>assertEquals</i>("07743", addresse.getOrt())
+        () -> <i>assertEquals</i>("Nürnberg", addresse.getOrt()),
+        () -> <i>assertEquals</i>("90425", addresse.getOrt())
       );
-      
+
       Exception ex = <i>assertThrows</i>(Exception.class, service::invoke);
-      
+
       <i>assertTimeout</i>(Duration.parse("PT0.500S"), service::invoke);
       <i>assertTimeoutPreemptivly</i>(
         Duration.parse("PT0.500S"), service::invoke);
     </code></pre>
 
   </section>
-  
+
   <section>
     <h3>JUnit 5 - Jupiter</h3>
     <hr>
     Neue Assumptions
-    
+
     <pre><code class="java" data-trim data-noescape>
       <i>assumeTrue</i>(service.isEnabled(), "Service should be enabled!");
-      
+
       <i>assumeFalse</i>(service.isEnabled(), () -> "That didn‘t work!");
-      
+
       <i>assumingThat</i>(service.isEnabled(), () -> { /* do something */ };
     </code></pre>
 
   </section>
-  
+
   <section>
     <h3>JUnit 5 - Jupiter</h3>
     <hr>
@@ -423,13 +426,13 @@ class TestWrapper {
     <pre><code class="java" data-trim data-noescape>
       @DisplayName("Eine Adresse sollte")
       class AddressTests {
-        
+
         @Test
         @DisplayName("einen gültigen Ort besitzen")
         void shouldHaveValidCity() {
           <i>assertNotNull</i>(adresse.getOrt());
         }
-        
+
         @Test
         @DisplayName("eine gültige Postleitzahl besitzen")
         void shouldHaveValidCity() {
@@ -437,18 +440,19 @@ class TestWrapper {
         }
       }
     </code></pre>
+
   </section>
 
   <section data-markdown><script type="text/template">
     ### JUnit 5 - Jupiter
     ---
     Parametrisierte Tests
-    
+
     - Dynamische Tests
-    - Ganz neu: Parametrisierte Tests
-    
+    - Parametrisierte Tests
+
   </script></section>
-  
+
   <section>
     <h3>JUnit 5 - Jupiter</h3>
     <hr>
@@ -459,13 +463,13 @@ class TestWrapper {
         @Parameters public static Collection&lt;Object[]&gt; data() {
           return Arrays.asList(new Object[][] {
             {0,0},{1,1},{2,1},{3,2} })};
-            
+
         private int input, expected;
-        
+
         public FibonacciTest(int input, int expected) {
           this.input = input; this.expected = expected;
         }
-        
+
         @Test
         public void test() {
           <i>assertEquals</i>(expected, Fibonacci.compute(input));
@@ -480,15 +484,15 @@ class TestWrapper {
     Dynamische Tests:
     <pre><code class="java" data-trim data-noescape>
       class DynamicTests {
-        
+
         @TestFactory
         List&lt;DynamicTest&gt; createSomeTests() {
-          
+
           return Arrays.asList(
-            DynamicTest.dynamicTest("First dynamically created test", 
+            DynamicTest.dynamicTest("First dynamically created test",
               () -> assertEquals(/* ... */)),
-              
-            DynamicTest.dynamicTest("Second dynamically created test", 
+
+            DynamicTest.dynamicTest("Second dynamically created test",
               () -> assertEquals(/* ... */))
           );
         }
@@ -500,74 +504,74 @@ class TestWrapper {
   <section data-markdown><script type="text/template">
     ### JUnit 5 - Jupiter
     ---
-    Parametrisierte Tests (seit Milestone 4):  
-    
-    - @ParameterizedTest  
-    - @ValueSource  
-    - @EnumSource  
-    - @MethodSource  
-    - @CsvSource / @CsvFileSource  
-    
+    Parametrisierte Tests (seit Milestone 4):
+
+    - @ParameterizedTest
+    - @ValueSource
+    - @EnumSource
+    - @MethodSource
+    - @CsvSource / @CsvFileSource
+
     Durch `ArgumentsProvider` sind eigene Implementierungen möglich
   </script></section>
-  
+
   <section>
     <h3>JUnit 5 - Jupiter</h3>
     <hr>
     <pre><code class="java" data-trim data-noescape>
-      class ParametrizedTests {
-        
+      class ParameterizedTests {
+
         @ParameterizedTest
         @ValueSource(ints = {1,2,3,4,5})
         void valueSourceTest(int param){ /* ... */ }
-        
+
         @ParameterizedTest
         @CsvFileSource(resources = "/file.csv")
         void csvSourceTest(String token1, String token2){ /* ... */ }
-        
+
         @ParameterizedTest
-        @MethodSource(name = "paramMethod")
+        @MethodSource("paramMethod")
         void methodSourceTest(String param){ /* ... */ }
-        
+
         static Iterable&lt;String&gt; paramMethod() { /* ... */ }
       }
     </code></pre>
 
   </section>
-  
-  
+
+
   <section>
     <h3>JUnit 5 - Jupiter</h3>
     <hr>
-    
+
     <ul><li>Repeatable Tests (seit Milestone 4)</li></ul>
-    
+
     <pre><code class="java" data-trim data-noescape>
       class RepeatableTests {
-        
+
         @RepeatableTest(10)
         void repeatableTest(RepetitionInfo repetitionInfo) {
           /* ... */
         }
       }
     </code></pre>
-    
+
   </section>
-  
-  
+
+
   <section>
     <h3>JUnit 5 - Jupiter</h3>
     <hr>
     Tests können deaktiviert werden:
     <pre><code class="java" data-trim data-noescape>
       class DisabledTests {
-        
+
         @Test
         @Disabled
         void breakingTest() {
           fail("This never works!");
         }
-        
+
         @Test
         @DisabledOnWeekends
         void breaksOnWeekends() {
@@ -576,7 +580,7 @@ class TestWrapper {
       }
     </code></pre>
   </section>
-  
+
   <section>
     <h3>JUnit 5 - Jupiter</h3>
     <hr>
@@ -586,9 +590,9 @@ class TestWrapper {
 
         @Override
         public ConditionEvaluationResult evaluate(TestExtensionContext context) {
-          if (isWeekend()) 
+          if (isWeekend())
             return disabled("Should not be run on weekends!");
-          else 
+          else
             return enabled("Should be run on weekdays!");
         }
 
@@ -602,47 +606,69 @@ class TestWrapper {
     ### JUnit 5 - Jupiter
     ---
     ExecutionConditions können deaktiviert werden:
-    
-    <small>-Djunit.conditions.deactivate=com.example.project.junitsession.support.DisabledOnWeekends</small>
+
+    <small>-Djunit.conditions.deactivate=com.example.project.junitsession.support.DisabledOnWeekendsCondition</small>
   </script></section>
 
 </section>
 
 <!-- ########################################################################################### -->
 <section>
-  
+
   <section data-markdown class="centered"><script type="text/template">
-  ### Ausblick
+  ### Integration von JUnit5
   </script></section>
-  
+
   <section data-markdown><script type="text/template">
-    ### JUnit 5 - Ausblick
-    ---
-    Was fehlt noch bis zu GA?
-    
-    - Java 9 Kompatibilität (M5)
-    - Bugfixing
+    ### JUnit 5 und Spring
+
+    - JUnit 4: SpringRunner oder verschiedene Rules
+    - Spring 5 wird JUnit 5 nativ unterstützen (Spring Boot 2)
+    - SpringExtension:
+      Integriert das Spring TestContext Framework
+    - @SpringJUnitConfig
   </script></section>
-  
+
   <section data-markdown><script type="text/template">
-    ### JUnit 5 - Ausblick
+    ### JUnit 5 und Mockito
+
+    - JUnit 4: MockitoJUnitRunner oder Rule
+    - MockitoAnnotations.initMocks(this)
+    - Mockito 3 wird eine MockitoExtension bereitstellen
+  </script></section>
+
+</section>
+
+<!-- ########################################################################################### -->
+<section>
+
+  <section data-markdown class="centered"><script type="text/template">
+  ### Fazit
+  </script></section>
+
+  <section data-markdown><script type="text/template">
+    ### JUnit 5 - Fazit
     ---
-    - Neue Architektur öffnet Plattform für Drittanbieter
+    - Neue Dynamik in der Entwicklung
+    - Altlasten sind abgestreift
     - Neue Möglichkeiten mit Jupiter
+    - Neue Architektur öffnet Plattform für Drittanbieter
     - Tool-Support ist schon vorhanden
-    - JUnit5 ist Gesprächsthema und wird sich durchsetzen
+    - JUnit 5 ist Gesprächsthema und wird sich durchsetzen
 
   </script></section>
-  
+
   <section data-markdown><script type="text/template">
-    Folien:  
-    https://dnno.github.io/junit5/  
-    
-    Beispiele:  
-    https://github.com/dnno/junit5-presentation  
+    Folien:
+    https://dnno.github.io/junit5/
+
+    Beispiele:
+    https://github.com/dnno/junit5-presentation
+    https://github.com/dnno/junit5-springboot
+    https://github.com/dnno/springboot-junit4-migration
     https://github.com/dnno/junit5-engines
   </script></section>
-  
+
 </section>
 <!-- ########################################################################################### -->
 <section data-markdown class="centered"><script type="text/template">
