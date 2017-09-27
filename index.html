@@ -368,7 +368,7 @@ class HelloWorldTests {
 
       <i>assertAll</i>("Addresstests",
         () -> <i>assertEquals</i>("Nürnberg", addresse.getOrt()),
-        () -> <i>assertEquals</i>("90425", addresse.getOrt())
+        () -> <i>assertEquals</i>("90425", addresse.getPlz())
       );
 
       Exception ex = <i>assertThrows</i>(Exception.class, service::invoke);
